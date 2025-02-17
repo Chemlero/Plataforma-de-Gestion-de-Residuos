@@ -1,0 +1,110 @@
+CREATE DATABASE GestionResiduos;
+GO
+-- TABLAS
+USE GestionResiduos;
+GO
+
+CREATE TABLE Zona (
+    Codigo_Postal INT PRIMARY KEY,
+    Nombre_Zona VARCHAR(255) NOT NULL,
+    Cantidad_Contenedores INT NOT NULL,
+    Nivel_Acumulación_Basura VARCHAR(10) NOT NULL CHECK (Nivel_Acumulación_Basura IN ('Bajo', 'Medio', 'Alto')),
+    Frecuencia_Recolección VARCHAR(10) NOT NULL CHECK (Frecuencia_Recolección IN ('Diaria', 'Semanal', 'Mensual')),
+    Tipo_Problema VARCHAR(MAX) NOT NULL,
+    Fecha_Ultima_Actualización DATETIME NOT NULL
+);
+CREATE TABLE Contenedor (
+    ID_Contenedor VARCHAR(50) PRIMARY KEY,
+    Ubicación VARCHAR(255) NOT NULL,
+    Estado VARCHAR(20) NOT NULL CHECK (Estado IN ('Lleno', 'Vacío', 'Desbordado')),
+    Capacidad_Total DECIMAL(10,2) NOT NULL,
+    Capacidad_Actual DECIMAL(10,2) NOT NULL,
+    Fecha_Ultima_Recolección DATETIME NOT NULL,
+    Tipo_Residuos VARCHAR(20) NOT NULL CHECK (Tipo_Residuos IN ('Orgánico', 'Plástico', 'Vidrio', 'Otros')),
+    Codigo_Postal INT NOT NULL,
+    FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
+);
+CREATE TABLE Reporte (
+    ID_Reporte INT PRIMARY KEY,
+    Fecha_Generación DATETIME NOT NULL,
+    Codigo_Postal INT NOT NULL,
+    Cantidad_Residuos DECIMAL(10,2) NOT NULL,
+    Cantidad_Contenedores_Llenos INT NOT NULL,
+    Incidencias_Reportadas VARCHAR(MAX) NOT NULL,
+    Estado_Envio VARCHAR(20) NOT NULL CHECK (Estado_Envio IN ('Enviado', 'Pendiente', 'Rechazado')),
+    FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
+);
+
+
+CREATE TABLE Autoridad (
+    ID_Autoridad INT PRIMARY KEY,
+    Nombre VARCHAR(255) NOT NULL,
+    Institución VARCHAR(255) NOT NULL,
+    Correo VARCHAR(255) NOT NULL,
+    Teléfono VARCHAR(20) NOT NULL,
+    Reportes_Recibidos INT NOT NULL,
+    Acciones_Tomadas VARCHAR(MAX) NOT NULL
+);
+
+CREATE TABLE Vehiculo_Recoleccion (
+    Placa VARCHAR(50) PRIMARY KEY,
+    Tipo_Vehículo VARCHAR(255) NOT NULL,
+    Capacidad_Carga DECIMAL(10,2) NOT NULL,
+    Codigo_Postal INT NOT NULL,
+    Ultimo_Mantenimiento DATETIME NOT NULL,
+    Estado VARCHAR(20) NOT NULL CHECK (Estado IN ('Disponible', 'En Mantenimiento', 'Fuera de Servicio')),
+    FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
+);
+CREATE TABLE Recolector (
+    ID_Recolector INT PRIMARY KEY,
+    Nombre VARCHAR(255) NOT NULL,
+    Codigo_Postal INT NOT NULL,
+    Turno VARCHAR(10) NOT NULL CHECK (Turno IN ('Mañana', 'Tarde', 'Noche')),
+    Cantidad_Recolectada DECIMAL(10,2) NOT NULL,
+    Vehículo_Asignado VARCHAR(50) NOT NULL,
+    Fecha_Ultima_Actividad DATETIME NOT NULL,
+    FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal),
+    FOREIGN KEY (Vehículo_Asignado) REFERENCES Vehiculo_Recoleccion(Placa)
+);
+
+CREATE TABLE Ciudadano (
+    Dni INT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    ApPaterno VARCHAR(50) NOT NULL,
+    ApMaterno VARCHAR(50) NOT NULL,
+    Email VARCHAR(150) NOT NULL,
+    Teléfono VARCHAR(20) NOT NULL,
+    Codigo_Postal INT NOT NULL,
+    Cantidad_Reportes_Enviados INT NOT NULL,
+    FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
+);
+
+-- TABLAS INTERMEDIAS PARA RELACIONES MUCHOS A MUCHOS
+
+CREATE TABLE Recolector_Contenedor (
+    ID_Recolector INT NOT NULL,
+    ID_Contenedor VARCHAR(50) NOT NULL,
+    PRIMARY KEY (ID_Recolector, ID_Contenedor),
+    FOREIGN KEY (ID_Recolector) REFERENCES Recolector(ID_Recolector),
+    FOREIGN KEY (ID_Contenedor) REFERENCES Contenedor(ID_Contenedor)
+);
+
+CREATE TABLE Autoridad_Reporte (
+    ID_Autoridad INT NOT NULL,
+    ID_Reporte INT NOT NULL,
+    PRIMARY KEY (ID_Autoridad, ID_Reporte),
+    FOREIGN KEY (ID_Autoridad) REFERENCES Autoridad(ID_Autoridad),
+    FOREIGN KEY (ID_Reporte) REFERENCES Reporte(ID_Reporte)
+);
+
+CREATE TABLE Ciudadano_Reporte (
+    Dni INT NOT NULL,
+    ID_Reporte INT NOT NULL,
+    PRIMARY KEY (Dni, ID_Reporte),
+    FOREIGN KEY (Dni) REFERENCES Ciudadano(Dni),
+    FOREIGN KEY (ID_Reporte) REFERENCES Reporte(ID_Reporte)
+);
+
+
+
+
