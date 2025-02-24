@@ -8,18 +8,18 @@ CREATE TABLE Zona (
     Codigo_Postal INT PRIMARY KEY,
     Nombre_Zona VARCHAR(255) NOT NULL,
     Cantidad_Contenedores INT NOT NULL,
-    Nivel_Acumulación_Basura VARCHAR(10) NOT NULL CHECK (Nivel_Acumulación_Basura IN ('Bajo', 'Medio', 'Alto')),
-    Frecuencia_Recolección VARCHAR(10) NOT NULL CHECK (Frecuencia_Recolección IN ('Diaria', 'Semanal', 'Mensual')),
+    Nivel_Acumulacion_Basura VARCHAR(10) NOT NULL CHECK (Nivel_Acumulación_Basura IN ('Bajo', 'Medio', 'Alto')),
+    Frecuencia_Recoleccion VARCHAR(10) NOT NULL CHECK (Frecuencia_Recolección IN ('Diaria', 'Semanal', 'Mensual')),
     Tipo_Problema VARCHAR(MAX) NOT NULL,
-    Fecha_Ultima_Actualización DATETIME NOT NULL
+    Fecha_Ultima_Actualizacion DATETIME NOT NULL
 );
 CREATE TABLE Contenedor (
     ID_Contenedor VARCHAR(50) PRIMARY KEY,
-    Ubicación VARCHAR(255) NOT NULL,
+    Ubicacion VARCHAR(255) NOT NULL,
     Estado VARCHAR(20) NOT NULL CHECK (Estado IN ('Lleno', 'Vacío', 'Desbordado')),
     Capacidad_Total DECIMAL(10,2) NOT NULL,
     Capacidad_Actual DECIMAL(10,2) NOT NULL,
-    Fecha_Ultima_Recolección DATETIME NOT NULL,
+    Fecha_Ultima_Recoleccion DATETIME NOT NULL,
     Tipo_Residuos VARCHAR(20) NOT NULL CHECK (Tipo_Residuos IN ('Orgánico', 'Plástico', 'Vidrio', 'Otros')),
     Codigo_Postal INT NOT NULL,
     FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
