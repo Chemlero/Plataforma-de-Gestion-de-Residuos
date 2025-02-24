@@ -1,0 +1,591 @@
+--------------------------------
+-- PROCEDIMIENTOS ALMACENADOS --
+--------------------------------
+
+-- Procedimiento para Insertar Contenedor
+CREATE PROCEDURE InsertarContenedor
+    @p_ID_Contenedor VARCHAR(10),
+    @p_Ubicación VARCHAR(255),
+    @p_Estado VARCHAR(50),
+    @p_Capacidad_Total DECIMAL(10, 2),
+    @p_Capacidad_Actual DECIMAL(10, 2),
+    @p_Fecha_Ultima_Recolección DATETIME,
+    @p_Tipo_Residuos VARCHAR(50)
+AS
+BEGIN
+    INSERT INTO Contenedor 
+    (
+        ID_Contenedor, 
+        Ubicación, 
+        Estado, 
+        Capacidad_Total, 
+        Capacidad_Actual, 
+        Fecha_Ultima_Recolección, 
+        Tipo_Residuos
+    )
+    VALUES
+    (
+        @p_ID_Contenedor, 
+        @p_Ubicación, 
+        @p_Estado, 
+        @p_Capacidad_Total, 
+        @p_Capacidad_Actual, 
+        @p_Fecha_Ultima_Recolección, 
+        @p_Tipo_Residuos
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Contenedores
+CREATE PROCEDURE ObtenerContenedores
+AS
+BEGIN
+    SELECT * FROM Contenedor;
+END;
+GO
+
+-- Procedimiento para Actualizar Contenedor
+CREATE PROCEDURE ActualizarContenedor
+    @p_ID_Contenedor VARCHAR(10),
+    @p_Estado VARCHAR(50),
+    @p_Capacidad_Actual DECIMAL(10, 2)
+AS
+BEGIN
+    UPDATE Contenedor
+    SET Estado = @p_Estado, Capacidad_Actual = @p_Capacidad_Actual
+    WHERE ID_Contenedor = @p_ID_Contenedor;
+END;
+GO
+
+-- Procedimiento para Eliminar Contenedor
+CREATE PROCEDURE EliminarContenedor
+    @p_ID_Contenedor VARCHAR(10)
+AS
+BEGIN
+    DELETE FROM Contenedor WHERE ID_Contenedor = @p_ID_Contenedor;
+END;
+GO
+
+-- Procedimiento para Insertar Zona
+CREATE PROCEDURE InsertarZona
+    @p_Nombre_Zona VARCHAR(100),
+    @p_Cantidad_Contenedores INT,
+    @p_Nivel_Acumulación_Basura VARCHAR(50),
+    @p_Frecuencia_Recolección VARCHAR(50),
+    @p_Tipo_Problema VARCHAR(50),
+    @p_Fecha_Ultima_Actualización DATETIME
+AS
+BEGIN
+    INSERT INTO Zona
+    (
+        Nombre_Zona, 
+        Cantidad_Contenedores, 
+        Nivel_Acumulación_Basura, 
+        Frecuencia_Recolección, 
+        Tipo_Problema, 
+        Fecha_Ultima_Actualización
+    )
+    VALUES
+    (
+        @p_Nombre_Zona, 
+        @p_Cantidad_Contenedores, 
+        @p_Nivel_Acumulación_Basura, 
+        @p_Frecuencia_Recolección, 
+        @p_Tipo_Problema, 
+        @p_Fecha_Ultima_Actualización
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Zonas
+CREATE PROCEDURE ObtenerZonas
+AS
+BEGIN
+    SELECT * FROM Zona;
+END;
+GO
+
+-- Procedimiento para Actualizar Zona
+CREATE PROCEDURE ActualizarZona
+    @p_Codigo_Postal INT,
+    @p_Frecuencia_Recolección VARCHAR(50),
+    @p_Nivel_Acumulación_Basura VARCHAR(50)
+AS
+BEGIN
+    UPDATE Zona
+    SET Frecuencia_Recolección = @p_Frecuencia_Recolección, 
+        Nivel_Acumulación_Basura = @p_Nivel_Acumulación_Basura
+    WHERE Codigo_Postal = @p_Codigo_Postal;
+END;
+GO
+
+-- Procedimiento para Eliminar Zona
+CREATE PROCEDURE EliminarZona
+    @p_Codigo_Postal INT
+AS
+BEGIN
+    DELETE FROM Zona WHERE Codigo_Postal = @p_Codigo_Postal;
+END;
+GO
+
+-- Procedimiento para Insertar Autoridad
+CREATE PROCEDURE InsertarAutoridad
+    @p_Nombre VARCHAR(100),
+    @p_Institución VARCHAR(100),
+    @p_Correo VARCHAR(100),
+    @p_Teléfono VARCHAR(15),
+    @p_Reportes_Recibidos INT,
+    @p_Acciones_Tomadas VARCHAR(255)
+AS
+BEGIN
+    INSERT INTO Autoridad
+    (
+        Nombre, 
+        Institución, 
+        Correo, 
+        Teléfono, 
+        Reportes_Recibidos, 
+        Acciones_Tomadas
+    )
+    VALUES
+    (
+        @p_Nombre, 
+        @p_Institución, 
+        @p_Correo, 
+        @p_Teléfono, 
+        @p_Reportes_Recibidos, 
+        @p_Acciones_Tomadas
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Autoridades
+CREATE PROCEDURE ObtenerAutoridades
+AS
+BEGIN
+    SELECT * FROM Autoridad;
+END;
+GO
+
+-- Procedimiento para Actualizar Autoridad
+CREATE PROCEDURE ActualizarAutoridad
+    @p_ID_Autoridad INT,
+    @p_Reportes_Recibidos INT,
+    @p_Acciones_Tomadas VARCHAR(255)
+AS
+BEGIN
+    UPDATE Autoridad
+    SET Reportes_Recibidos = @p_Reportes_Recibidos, Acciones_Tomadas = @p_Acciones_Tomadas
+    WHERE ID_Autoridad = @p_ID_Autoridad;
+END;
+GO
+
+-- Procedimiento para Eliminar Autoridad
+CREATE PROCEDURE EliminarAutoridad
+    @p_ID_Autoridad INT
+AS
+BEGIN
+    DELETE FROM Autoridad WHERE ID_Autoridad = @p_ID_Autoridad;
+END;
+GO
+
+-- Procedimiento para Insertar Recolector_Contenedor
+CREATE PROCEDURE InsertarRecolectorContenedor
+    @p_ID_Recolector INT,
+    @p_ID_Contenedor VARCHAR(10)
+AS
+BEGIN
+    INSERT INTO Recolector_Contenedor
+    (
+        ID_Recolector, 
+        ID_Contenedor
+    )
+    VALUES
+    (
+        @p_ID_Recolector, 
+        @p_ID_Contenedor
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Recolector_Contenedor
+CREATE PROCEDURE ObtenerRecolectorContenedor
+AS
+BEGIN
+    SELECT * FROM Recolector_Contenedor;
+END;
+GO
+
+-- Procedimiento para Actualizar Recolector_Contenedor
+CREATE PROCEDURE ActualizarRecolectorContenedor
+    @p_ID_Recolector INT,
+    @p_ID_Contenedor VARCHAR(10)
+AS
+BEGIN
+    UPDATE Recolector_Contenedor
+    SET ID_Contenedor = @p_ID_Contenedor
+    WHERE ID_Recolector = @p_ID_Recolector;
+END;
+GO
+
+-- Procedimiento para Eliminar Recolector_Contenedor
+CREATE PROCEDURE EliminarRecolectorContenedor
+    @p_ID_Recolector INT,
+    @p_ID_Contenedor VARCHAR(10)
+AS
+BEGIN
+    DELETE FROM Recolector_Contenedor 
+    WHERE ID_Recolector = @p_ID_Recolector AND ID_Contenedor = @p_ID_Contenedor;
+END;
+GO
+
+-- Procedimiento para Insertar Autoridad_Reporte
+CREATE PROCEDURE InsertarAutoridadReporte
+    @p_ID_Autoridad INT,
+    @p_ID_Reporte INT
+AS
+BEGIN
+    INSERT INTO Autoridad_Reporte
+    (
+        ID_Autoridad, 
+        ID_Reporte
+    )
+    VALUES
+    (
+        @p_ID_Autoridad, 
+        @p_ID_Reporte
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Autoridad_Reporte
+CREATE PROCEDURE ObtenerAutoridadReporte
+AS
+BEGIN
+    SELECT * FROM Autoridad_Reporte;
+END;
+GO
+
+-- Procedimiento para Actualizar Autoridad_Reporte
+CREATE PROCEDURE ActualizarAutoridadReporte
+    @p_ID_Autoridad INT,
+    @p_ID_Reporte INT
+AS
+BEGIN
+    UPDATE Autoridad_Reporte
+    SET ID_Reporte = @p_ID_Reporte
+    WHERE ID_Autoridad = @p_ID_Autoridad;
+END;
+GO
+
+-- Procedimiento para Eliminar Autoridad_Reporte
+CREATE PROCEDURE EliminarAutoridadReporte
+    @p_ID_Autoridad INT,
+    @p_ID_Reporte INT
+AS
+BEGIN
+    DELETE FROM Autoridad_Reporte 
+    WHERE ID_Autoridad = @p_ID_Autoridad AND ID_Reporte = @p_ID_Reporte;
+END;
+GO
+
+-- Procedimiento para Insertar Ciudadano_Reporte
+CREATE PROCEDURE InsertarCiudadanoReporte
+    @p_Dni INT,
+    @p_ID_Reporte INT
+AS
+BEGIN
+    INSERT INTO Ciudadano_Reporte
+    (
+        Dni, 
+        ID_Reporte
+    )
+    VALUES
+    (
+        @p_Dni, 
+        @p_ID_Reporte
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Ciudadano_Reporte
+CREATE PROCEDURE ObtenerCiudadanoReporte
+AS
+BEGIN
+    SELECT * FROM Ciudadano_Reporte;
+END;
+GO
+
+-- Procedimiento para Actualizar Ciudadano_Reporte
+CREATE PROCEDURE ActualizarCiudadanoReporte
+    @p_Dni INT,
+    @p_ID_Reporte INT
+AS
+BEGIN
+    UPDATE Ciudadano_Reporte
+    SET ID_Reporte = @p_ID_Reporte
+    WHERE Dni = @p_Dni;
+END;
+GO
+
+-- Procedimiento para Eliminar Ciudadano_Reporte
+CREATE PROCEDURE EliminarCiudadanoReporte
+    @p_Dni INT,
+    @p_ID_Reporte INT
+AS
+BEGIN
+    DELETE FROM Ciudadano_Reporte 
+    WHERE Dni = @p_Dni AND ID_Reporte = @p_ID_Reporte;
+END;
+GO
+
+-- Procedimiento para Insertar Reporte
+CREATE PROCEDURE InsertarReporte
+    @p_Fecha_Generación DATETIME,
+    @p_Codigo_Postal INT,
+    @p_Cantidad_Residuos DECIMAL(10, 2),
+    @p_Cantidad_Contenedores_Llenos INT,
+    @p_Incidencias_Reportadas VARCHAR(MAX),
+    @p_Estado_Envio VARCHAR(50)
+AS
+BEGIN
+    INSERT INTO Reporte
+    (
+        Fecha_Generación, 
+        Codigo_Postal, 
+        Cantidad_Residuos, 
+        Cantidad_Contenedores_Llenos, 
+        Incidencias_Reportadas, 
+        Estado_Envio
+    )
+    VALUES
+    (
+        @p_Fecha_Generación, 
+        @p_Codigo_Postal, 
+        @p_Cantidad_Residuos, 
+        @p_Cantidad_Contenedores_Llenos, 
+        @p_Incidencias_Reportadas, 
+        @p_Estado_Envio
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Reporte
+CREATE PROCEDURE ObtenerReporte
+AS
+BEGIN
+    SELECT * FROM Reporte;
+END;
+GO
+
+-- Procedimiento para Actualizar Reporte
+CREATE PROCEDURE ActualizarReporte
+    @p_ID_Reporte INT,
+    @p_Estado_Envio VARCHAR(50)
+AS
+BEGIN
+    UPDATE Reporte
+    SET Estado_Envio = @p_Estado_Envio
+    WHERE ID_Reporte = @p_ID_Reporte;
+END;
+GO
+
+-- Procedimiento para Eliminar Reporte
+CREATE PROCEDURE EliminarReporte
+    @p_ID_Reporte INT
+AS
+BEGIN
+    DELETE FROM Reporte WHERE ID_Reporte = @p_ID_Reporte;
+END;
+GO
+
+-- Procedimiento para Insertar Vehículo de Recolección
+CREATE PROCEDURE InsertarVehiculoRecoleccion
+    @p_Placa VARCHAR(10),
+    @p_Tipo_Vehiculo VARCHAR(50),
+    @p_Capacidad_Carga DECIMAL(10, 2),
+    @p_Codigo_Postal INT,
+    @p_Ultimo_Mantenimiento DATETIME,
+    @p_Estado VARCHAR(50)
+AS
+BEGIN
+    INSERT INTO Vehiculo_Recoleccion
+    (
+        Placa, 
+        Tipo_Vehículo, 
+        Capacidad_Carga, 
+        Codigo_Postal, 
+        Ultimo_Mantenimiento, 
+        Estado
+    )
+    VALUES
+    (
+        @p_Placa, 
+        @p_Tipo_Vehiculo, 
+        @p_Capacidad_Carga, 
+        @p_Codigo_Postal, 
+        @p_Ultimo_Mantenimiento, 
+        @p_Estado
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Vehículo de Recolección
+CREATE PROCEDURE ObtenerVehiculoRecoleccion
+AS
+BEGIN
+    SELECT * FROM Vehiculo_Recoleccion;
+END;
+GO
+
+-- Procedimiento para Actualizar Vehículo de Recolección
+CREATE PROCEDURE ActualizarVehiculoRecoleccion
+    @p_Placa VARCHAR(10), 
+    @p_Estado VARCHAR(50)
+AS 
+BEGIN 
+    UPDATE Vehiculo_Recoleccion 
+    SET Estado = @p_Estado 
+    WHERE Placa = @p_Placa;
+END;
+GO
+
+-- Procedimiento para Eliminar Vehículo de Recolección
+CREATE PROCEDURE EliminarVehiculoRecoleccion
+    @p_Placa VARCHAR(10)
+AS
+BEGIN
+    DELETE FROM Vehiculo_Recoleccion 
+    WHERE Placa = @p_Placa;
+END;
+GO
+
+-- Procedimiento para Insertar Ciudadano
+CREATE PROCEDURE InsertarCiudadano
+    @p_Dni INT,
+    @p_Nombre VARCHAR(100),
+    @p_ApPaterno VARCHAR(100),
+    @p_ApMaterno VARCHAR(100),
+    @p_Email VARCHAR(100),
+    @p_Telefono VARCHAR(15),
+    @p_Codigo_Postal INT,
+    @p_Cantidad_Reportes_Enviados INT
+AS
+BEGIN
+    INSERT INTO Ciudadano
+    (
+        Dni, 
+        Nombre, 
+        ApPaterno, 
+        ApMaterno, 
+        Email, 
+        Teléfono, 
+        Codigo_Postal, 
+        Cantidad_Reportes_Enviados
+    )
+    VALUES
+    (
+        @p_Dni, 
+        @p_Nombre, 
+        @p_ApPaterno, 
+        @p_ApMaterno, 
+        @p_Email, 
+        @p_Telefono, 
+        @p_Codigo_Postal, 
+        @p_Cantidad_Reportes_Enviados
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Ciudadano
+CREATE PROCEDURE ObtenerCiudadano
+AS
+BEGIN
+    SELECT * FROM Ciudadano;
+END;
+GO
+
+-- Procedimiento para Actualizar Ciudadano
+CREATE PROCEDURE ActualizarCiudadano
+    @p_Dni INT, 
+    @p_Cantidad_Reportes_Enviados INT
+AS 
+BEGIN 
+    UPDATE Ciudadano 
+    SET Cantidad_Reportes_Enviados = @p_Cantidad_Reportes_Enviados 
+    WHERE Dni = @p_Dni;
+END;
+GO
+
+-- Procedimiento para Eliminar Ciudadano
+CREATE PROCEDURE EliminarCiudadano
+    @p_Dni INT
+AS
+BEGIN
+    DELETE FROM Ciudadano 
+    WHERE Dni = @p_Dni;
+END;
+GO
+
+-- Procedimiento para Insertar Recolector
+CREATE PROCEDURE InsertarRecolector
+    @p_Nombre VARCHAR(100),
+    @p_Codigo_Postal INT,
+    @p_Turno VARCHAR(50),
+    @p_Cantidad_Recolectada DECIMAL(10, 2),
+    @p_Vehiculo_Asignado VARCHAR(50),
+    @p_Fecha_Ultima_Actividad DATETIME
+AS
+BEGIN
+    INSERT INTO Recolector
+    (
+        Nombre, 
+        Codigo_Postal, 
+        Turno, 
+        Cantidad_Recolectada, 
+        Vehículo_Asignado, 
+        Fecha_Ultima_Actividad
+    )
+    VALUES
+    (
+        @p_Nombre, 
+        @p_Codigo_Postal, 
+        @p_Turno, 
+        @p_Cantidad_Recolectada, 
+        @p_Vehiculo_Asignado, 
+        @p_Fecha_Ultima_Actividad
+    );
+END;
+GO
+
+-- Procedimiento para Obtener Recolector
+CREATE PROCEDURE ObtenerRecolector
+AS
+BEGIN
+    SELECT * FROM Recolector;
+END;
+GO
+
+-- Procedimiento para Actualizar Recolector
+CREATE PROCEDURE ActualizarRecolector
+    @p_ID_Recolector INT, 
+    @p_Cantidad_Recolectada DECIMAL(10,2), 
+    @p_Fecha_Ultima_Actividad DATETIME 
+AS 
+BEGIN 
+    UPDATE Recolector 
+    SET Cantidad_Recolectada = @p_Cantidad_Recolectada, 
+        Fecha_Ultima_Actividad = @p_Fecha_Ultima_Actividad 
+    WHERE ID_Recolector = @p_ID_Recolector;
+END;
+GO
+
+-- Procedimiento para Eliminar Recolector
+CREATE PROCEDURE EliminarRecolector
+    @p_ID_Recolector INT
+AS
+BEGIN
+    DELETE FROM Recolector 
+    WHERE ID_Recolector = @p_ID_Recolector;
+END;
+GO
