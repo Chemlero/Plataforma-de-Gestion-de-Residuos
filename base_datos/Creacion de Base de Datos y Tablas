@@ -1,5 +1,6 @@
 CREATE DATABASE GestionResiduos;
 GO
+
 -- TABLAS
 USE GestionResiduos;
 GO
@@ -8,25 +9,27 @@ CREATE TABLE Zona (
     Codigo_Postal INT PRIMARY KEY,
     Nombre_Zona VARCHAR(255) NOT NULL,
     Cantidad_Contenedores INT NOT NULL,
-    Nivel_Acumulacion_Basura VARCHAR(10) NOT NULL CHECK (Nivel_Acumulación_Basura IN ('Bajo', 'Medio', 'Alto')),
-    Frecuencia_Recoleccion VARCHAR(10) NOT NULL CHECK (Frecuencia_Recolección IN ('Diaria', 'Semanal', 'Mensual')),
+    Nivel_Acumulacion_Basura VARCHAR(10) NOT NULL CHECK (Nivel_Acumulacion_Basura IN ('Bajo', 'Medio', 'Alto')),
+    Frecuencia_Recoleccion VARCHAR(10) NOT NULL CHECK (Frecuencia_Recoleccion IN ('Diaria', 'Semanal', 'Mensual')),
     Tipo_Problema VARCHAR(MAX) NOT NULL,
     Fecha_Ultima_Actualizacion DATETIME NOT NULL
 );
+
 CREATE TABLE Contenedor (
     ID_Contenedor VARCHAR(50) PRIMARY KEY,
     Ubicacion VARCHAR(255) NOT NULL,
-    Estado VARCHAR(20) NOT NULL CHECK (Estado IN ('Lleno', 'Vacío', 'Desbordado')),
+    Estado VARCHAR(20) NOT NULL CHECK (Estado IN ('Lleno', 'Vacio', 'Desbordado')),
     Capacidad_Total DECIMAL(10,2) NOT NULL,
     Capacidad_Actual DECIMAL(10,2) NOT NULL,
     Fecha_Ultima_Recoleccion DATETIME NOT NULL,
-    Tipo_Residuos VARCHAR(20) NOT NULL CHECK (Tipo_Residuos IN ('Orgánico', 'Plástico', 'Vidrio', 'Otros')),
+    Tipo_Residuos VARCHAR(20) NOT NULL CHECK (Tipo_Residuos IN ('Organico', 'Plastico', 'Vidrio', 'Otros')),
     Codigo_Postal INT NOT NULL,
     FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
 );
+
 CREATE TABLE Reporte (
     ID_Reporte INT PRIMARY KEY,
-    Fecha_Generación DATETIME NOT NULL,
+    Fecha_Generacion DATETIME NOT NULL,
     Codigo_Postal INT NOT NULL,
     Cantidad_Residuos DECIMAL(10,2) NOT NULL,
     Cantidad_Contenedores_Llenos INT NOT NULL,
@@ -35,36 +38,36 @@ CREATE TABLE Reporte (
     FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
 );
 
-
 CREATE TABLE Autoridad (
     ID_Autoridad INT PRIMARY KEY,
     Nombre VARCHAR(255) NOT NULL,
-    Institución VARCHAR(255) NOT NULL,
+    Institucion VARCHAR(255) NOT NULL,
     Correo VARCHAR(255) NOT NULL,
-    Teléfono VARCHAR(20) NOT NULL,
+    Telefono VARCHAR(20) NOT NULL,
     Reportes_Recibidos INT NOT NULL,
     Acciones_Tomadas VARCHAR(MAX) NOT NULL
 );
 
 CREATE TABLE Vehiculo_Recoleccion (
     Placa VARCHAR(50) PRIMARY KEY,
-    Tipo_Vehículo VARCHAR(255) NOT NULL,
+    Tipo_Vehiculo VARCHAR(255) NOT NULL,
     Capacidad_Carga DECIMAL(10,2) NOT NULL,
     Codigo_Postal INT NOT NULL,
     Ultimo_Mantenimiento DATETIME NOT NULL,
     Estado VARCHAR(20) NOT NULL CHECK (Estado IN ('Disponible', 'En Mantenimiento', 'Fuera de Servicio')),
     FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
 );
+
 CREATE TABLE Recolector (
     ID_Recolector INT PRIMARY KEY,
     Nombre VARCHAR(255) NOT NULL,
     Codigo_Postal INT NOT NULL,
-    Turno VARCHAR(10) NOT NULL CHECK (Turno IN ('Mañana', 'Tarde', 'Noche')),
+    Turno VARCHAR(10) NOT NULL CHECK (Turno IN ('Manana', 'Tarde', 'Noche')),
     Cantidad_Recolectada DECIMAL(10,2) NOT NULL,
-    Vehículo_Asignado VARCHAR(50) NOT NULL,
+    Vehiculo_Asignado VARCHAR(50) NOT NULL,
     Fecha_Ultima_Actividad DATETIME NOT NULL,
     FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal),
-    FOREIGN KEY (Vehículo_Asignado) REFERENCES Vehiculo_Recoleccion(Placa)
+    FOREIGN KEY (Vehiculo_Asignado) REFERENCES Vehiculo_Recoleccion(Placa)
 );
 
 CREATE TABLE Ciudadano (
@@ -73,7 +76,7 @@ CREATE TABLE Ciudadano (
     ApPaterno VARCHAR(50) NOT NULL,
     ApMaterno VARCHAR(50) NOT NULL,
     Email VARCHAR(150) NOT NULL,
-    Teléfono VARCHAR(20) NOT NULL,
+    Telefono VARCHAR(20) NOT NULL,
     Codigo_Postal INT NOT NULL,
     Cantidad_Reportes_Enviados INT NOT NULL,
     FOREIGN KEY (Codigo_Postal) REFERENCES Zona(Codigo_Postal)
@@ -104,3 +107,4 @@ CREATE TABLE Ciudadano_Reporte (
     FOREIGN KEY (Dni) REFERENCES Ciudadano(Dni),
     FOREIGN KEY (ID_Reporte) REFERENCES Reporte(ID_Reporte)
 );
+
