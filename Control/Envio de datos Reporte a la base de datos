@@ -1,0 +1,21 @@
+// 2️⃣ Crear el objeto Reporte
+    Reporte reporte = new Reporte(
+        0, 
+        fechaGeneracion, 
+        codigoPostal, 
+        0.0, // Cantidad de residuos (ajústalo si lo necesitas)
+        cantidadContenedoresLlenos, 
+        incidenciasReportadas, 
+        estadoEnvio
+    );
+
+    // 3️⃣ Guardar en la base de datos
+    ReporteDAO reporteDAO = DAOFactory.getReporteDAO();
+    boolean resultado = reporteDAO.insertarReporte(reporte);
+
+    // 4️⃣ Mostrar mensaje
+    if (resultado) {
+        JOptionPane.showMessageDialog(this, "✅ Reporte enviado y guardado correctamente en la base de datos.");
+    } else {
+        JOptionPane.showMessageDialog(this, "❌ Error al guardar el reporte en la base de datos.");
+    }
