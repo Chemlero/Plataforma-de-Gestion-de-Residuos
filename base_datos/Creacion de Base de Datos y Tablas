@@ -28,7 +28,7 @@ CREATE TABLE Contenedor (
 );
 
 CREATE TABLE Reporte (
-    ID_Reporte INT PRIMARY KEY,
+    ID_Reporte INT IDENTITY(1,1) PRIMARY KEY
     Fecha_Generacion DATETIME NOT NULL,
     Codigo_Postal INT NOT NULL,
     Cantidad_Residuos DECIMAL(10,2) NOT NULL,
