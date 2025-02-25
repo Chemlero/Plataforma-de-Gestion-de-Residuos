@@ -141,7 +141,7 @@ BEGIN
     INSERT INTO Autoridad
     (
         Nombre, 
-        Institución, 
+        Institucion, 
         Correo, 
         Telefono, 
         Reportes_Recibidos, 
