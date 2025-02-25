@@ -5,32 +5,32 @@
 -- Procedimiento para Insertar Contenedor
 CREATE PROCEDURE InsertarContenedor
     @p_ID_Contenedor VARCHAR(10),
-    @p_Ubicación VARCHAR(255),
+    @p_Ubicacion VARCHAR(255),
     @p_Estado VARCHAR(50),
     @p_Capacidad_Total DECIMAL(10, 2),
     @p_Capacidad_Actual DECIMAL(10, 2),
-    @p_Fecha_Ultima_Recolección DATETIME,
+    @p_Fecha_Ultima_Recoleccion DATETIME,
     @p_Tipo_Residuos VARCHAR(50)
 AS
 BEGIN
     INSERT INTO Contenedor 
     (
         ID_Contenedor, 
-        Ubicación, 
+        Ubicacion, 
         Estado, 
         Capacidad_Total, 
         Capacidad_Actual, 
-        Fecha_Ultima_Recolección, 
+        Fecha_Ultima_Recoleccion, 
         Tipo_Residuos
     )
     VALUES
     (
         @p_ID_Contenedor, 
-        @p_Ubicación, 
+        @p_Ubicacion, 
         @p_Estado, 
         @p_Capacidad_Total, 
         @p_Capacidad_Actual, 
-        @p_Fecha_Ultima_Recolección, 
+        @p_Fecha_Ultima_Recoleccion, 
         @p_Tipo_Residuos
     );
 END;
@@ -70,29 +70,29 @@ GO
 CREATE PROCEDURE InsertarZona
     @p_Nombre_Zona VARCHAR(100),
     @p_Cantidad_Contenedores INT,
-    @p_Nivel_Acumulación_Basura VARCHAR(50),
-    @p_Frecuencia_Recolección VARCHAR(50),
+    @p_Nivel_Acumulacion_Basura VARCHAR(50),
+    @p_Frecuencia_Recoleccion VARCHAR(50),
     @p_Tipo_Problema VARCHAR(50),
-    @p_Fecha_Ultima_Actualización DATETIME
+    @p_Fecha_Ultima_Actualizacion DATETIME
 AS
 BEGIN
     INSERT INTO Zona
     (
         Nombre_Zona, 
         Cantidad_Contenedores, 
-        Nivel_Acumulación_Basura, 
-        Frecuencia_Recolección, 
+        Nivel_Acumulacion_Basura, 
+        Frecuencia_Recoleccion, 
         Tipo_Problema, 
-        Fecha_Ultima_Actualización
+        Fecha_Ultima_Actualizacion
     )
     VALUES
     (
         @p_Nombre_Zona, 
         @p_Cantidad_Contenedores, 
-        @p_Nivel_Acumulación_Basura, 
-        @p_Frecuencia_Recolección, 
+        @p_Nivel_Acumulacion_Basura, 
+        @p_Frecuencia_Recoleccion, 
         @p_Tipo_Problema, 
-        @p_Fecha_Ultima_Actualización
+        @p_Fecha_Ultima_Actualizacion
     );
 END;
 GO
@@ -108,13 +108,13 @@ GO
 -- Procedimiento para Actualizar Zona
 CREATE PROCEDURE ActualizarZona
     @p_Codigo_Postal INT,
-    @p_Frecuencia_Recolección VARCHAR(50),
-    @p_Nivel_Acumulación_Basura VARCHAR(50)
+    @p_Frecuencia_Recoleccion VARCHAR(50),
+    @p_Nivel_Acumulacion_Basura VARCHAR(50)
 AS
 BEGIN
     UPDATE Zona
-    SET Frecuencia_Recolección = @p_Frecuencia_Recolección, 
-        Nivel_Acumulación_Basura = @p_Nivel_Acumulación_Basura
+    SET Frecuencia_Recoleccion = @p_Frecuencia_Recoleccion, 
+        Nivel_Acumulacion_Basura = @p_Nivel_Acumulacion_Basura
     WHERE Codigo_Postal = @p_Codigo_Postal;
 END;
 GO
@@ -131,9 +131,9 @@ GO
 -- Procedimiento para Insertar Autoridad
 CREATE PROCEDURE InsertarAutoridad
     @p_Nombre VARCHAR(100),
-    @p_Institución VARCHAR(100),
+    @p_Institucion VARCHAR(100),
     @p_Correo VARCHAR(100),
-    @p_Teléfono VARCHAR(15),
+    @p_Telefono VARCHAR(15),
     @p_Reportes_Recibidos INT,
     @p_Acciones_Tomadas VARCHAR(255)
 AS
@@ -143,16 +143,16 @@ BEGIN
         Nombre, 
         Institución, 
         Correo, 
-        Teléfono, 
+        Telefono, 
         Reportes_Recibidos, 
         Acciones_Tomadas
     )
     VALUES
     (
         @p_Nombre, 
-        @p_Institución, 
+        @p_Institucion, 
         @p_Correo, 
-        @p_Teléfono, 
+        @p_Telefono, 
         @p_Reportes_Recibidos, 
         @p_Acciones_Tomadas
     );
@@ -341,7 +341,7 @@ GO
 
 -- Procedimiento para Insertar Reporte
 CREATE PROCEDURE InsertarReporte
-    @p_Fecha_Generación DATETIME,
+    @p_Fecha_Generacion DATETIME,
     @p_Codigo_Postal INT,
     @p_Cantidad_Residuos DECIMAL(10, 2),
     @p_Cantidad_Contenedores_Llenos INT,
@@ -351,7 +351,7 @@ AS
 BEGIN
     INSERT INTO Reporte
     (
-        Fecha_Generación, 
+        Fecha_Generacion, 
         Codigo_Postal, 
         Cantidad_Residuos, 
         Cantidad_Contenedores_Llenos, 
@@ -360,7 +360,7 @@ BEGIN
     )
     VALUES
     (
-        @p_Fecha_Generación, 
+        @p_Fecha_Generacion, 
         @p_Codigo_Postal, 
         @p_Cantidad_Residuos, 
         @p_Cantidad_Contenedores_Llenos, 
@@ -412,7 +412,7 @@ BEGIN
     INSERT INTO Vehiculo_Recoleccion
     (
         Placa, 
-        Tipo_Vehículo, 
+        Tipo_Vehiculo, 
         Capacidad_Carga, 
         Codigo_Postal, 
         Ultimo_Mantenimiento, 
@@ -479,7 +479,7 @@ BEGIN
         ApPaterno, 
         ApMaterno, 
         Email, 
-        Teléfono, 
+        Telefono, 
         Codigo_Postal, 
         Cantidad_Reportes_Enviados
     )
@@ -543,7 +543,7 @@ BEGIN
         Codigo_Postal, 
         Turno, 
         Cantidad_Recolectada, 
-        Vehículo_Asignado, 
+        Vehiculo_Asignado, 
         Fecha_Ultima_Actividad
     )
     VALUES
