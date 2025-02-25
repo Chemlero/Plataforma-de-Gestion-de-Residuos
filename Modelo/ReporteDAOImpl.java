@@ -17,7 +17,7 @@ public class ReporteDAOImpl implements ReporteDAO {
     public boolean insertarReporte(Reporte reporte) {
         String sql = "{call InsertarReporte(?, ?, ?, ?, ?, ?)}";
         try (CallableStatement stmt = conexion.prepareCall(sql)) {
-            stmt.setDate(1, new java.sql.Date(reporte.getFechaGeneracion().getTime()));
+            stmt.setTimestamp(1, new Timestamp(reporte.getFechaGeneracion().getTime()));
             stmt.setInt(2, reporte.getCodigoPostal());
             stmt.setDouble(3, reporte.getCantidadResiduos());
             stmt.setInt(4, reporte.getCantidadContenedoresLlenos());
